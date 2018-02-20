@@ -20369,11 +20369,12 @@ var Board = function Board(props) {
         'div',
         { className: _App2.default.Board },
         ' ',
-        console.log('props ', props.tiles),
+        props.tiles.map(function (tile) {
+            _react2.default.createElement(Tile, { key: _uuid2.default.v4(), id: _uuid2.default.v4, value: tile, onChange: props.onChange });
+        }),
         ' '
     );
 };
-
 var App = function (_React$Component) {
     _inherits(App, _React$Component);
 
@@ -20419,6 +20420,7 @@ var App = function (_React$Component) {
                     null,
                     ' Sudoku '
                 ),
+                '  ',
                 this.renderBoard(),
                 _react2.default.createElement(
                     'div',
