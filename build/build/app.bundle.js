@@ -20375,6 +20375,7 @@ var Board = function Board(props) {
         ' '
     );
 };
+
 var App = function (_React$Component) {
     _inherits(App, _React$Component);
 
@@ -20398,9 +20399,9 @@ var App = function (_React$Component) {
     }, {
         key: 'newGame',
         value: function newGame() {
-            this.state.initialBoard = _sudokuUmd2.default.generate("easy", false);
+            this.setState({ initialBoard: _sudokuUmd2.default.generate("easy", false) });
             console.log('initialBoard ', this.state.initialBoard);
-            this.state.board = this.state.initialBoard.split("");
+            this.setState({ board: this.state.initialBoard.split("") });
             console.log('board ', this.state.board);
         }
     }, {
