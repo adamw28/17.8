@@ -14,10 +14,12 @@ const Tile = props => ( <
 const Board = props => ( <
         div className = { style.Board } > {
             props.tiles.map((tile) => { < Tile key = { uuid.v4() } id = { uuid.v4 } value = { tile } onChange = {
-                        props.onChange} />})
-                    } <
-                    /div>); 
-                    class App extends React.Component {
+                        props.onChange
+                    }
+                    />})
+                } <
+                /div>); 
+                class App extends React.Component {
                     constructor(props) {
                         super(props);
                         this.state = {
@@ -29,9 +31,9 @@ const Board = props => ( <
                         console.log('board ', this.state.board);
                     }
                     newGame() {
-                        this.setState({initialBoard : sudoku.generate("easy", false)});
+                        this.setState({ initialBoard: sudoku.generate("easy", false) });
                         console.log('initialBoard ', this.state.initialBoard);
-                        this.setState({board : this.state.initialBoard.split("")});
+                        this.setState({ board: this.state.initialBoard.split("") });
                         console.log('board ', this.state.board);
                     }
                     renderBoard() {
