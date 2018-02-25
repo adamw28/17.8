@@ -4,11 +4,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var OptimizeJsPlugin = require('optimize-js-plugin');
 
-{/*var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'development';
 var plugins = [
     new HtmlWebpackPlugin({
         template: 'index.html',
-        filename: 'build/index.html',
+        filename: 'index.html',
         inject: 'body',
     })
 ];
@@ -20,7 +20,7 @@ if (env === 'production') {
             sourceMap: false
         })
     );
-}*/}
+}
 
 module.exports = {
     entry: [
@@ -29,7 +29,7 @@ module.exports = {
     ],
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: './build/app.bundle.js'
+        filename: 'app.bundle.js'
     },
     module: {
         rules: [{
@@ -51,4 +51,6 @@ module.exports = {
             }
         ]
     },
+    devServer: {       contentBase: path.join(__dirname, "/"),       compress: true,       port: 9000     },
+    plugins:plugins
 };
