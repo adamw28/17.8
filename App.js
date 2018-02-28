@@ -10,15 +10,16 @@ const Tile = props => (
         max="9"
         className={style.Tile}
         defaultValue={props.value}
-        onChange={props.onChange(props.id, props.value)}
+        onChange={()=>(props.onChange(props.id,props.value)) }
         disabled={props.value == "." ? false : true}
     />
 );
-const Board = props => (
+let id=-1;
+const Board = (props,id) => (
     <div className={style.Board}>
-        {props.tiles.map(tile => {
+        {props.tiles.map((tile,id) => {
             return (
-                <Tile key={uuid.v4()} value={tile} onChange={props.onChange} />
+                <Tile key={uuid.v4()} value={tile} id={id} onChange={props.onChange} />
             );
         })}
     </div>
@@ -31,21 +32,29 @@ class App extends React.Component {
                 ".................................................................................",
             board: []
         };
-        this.setState({ board: this.state.initialBoard.split("") });
-        console.log("board ", this.state.initialBoard);
     }
-    onChange(key, value) {
-        console.log("board ", key, " ", value);
-        console.log(this.state.board[key]);
+    componentDidMount() {
+        this.setState({ board: this.state.initialBoard.split("")});
+    }
+    onChange(id, value) {
+        this.setState({board:this.state.board.map((item,index)=>{
+            if(index==id){
+                return value
+            }
+            return item
+        })});
+        console.log('id',this.state.board[id]);
+        console.log("board ", id, " ", value);
     }
     newGame() {
         const level = prompt(
             "Wybierz poziom trudności easy medium hard very-hard insane inhuman"
         );
-        this.setState({ initialBoard: sudoku.generate(level, false) });
-        console.log("initialBoard ", this.state.initialBoard);
-        this.setState({ board: this.state.initialBoard.split("") });
-        console.log("board ", this.state.board);
+        const initial = sudoku.generate(level, false);
+        this.setState({
+            initialBoard: initial,
+            board: initial.split("")
+        });
     }
     restart() {
         this.setState({ board: this.state.initialBoard.split("") });
