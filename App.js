@@ -3,17 +3,30 @@ import style from "./App.css";
 import uuid from "uuid";
 import sudoku from "sudoku-umd";
 
-const Tile = props => (
-    <input
-        type="number"
-        min="1"
-        max="9"
-        className={style.Tile}
-        defaultValue={props.value}
-        onChange={()=>(props.onChange(props.id,props.value)) }
-        disabled={props.value == "." ? false : true}
-    />
-);
+
+class Tile extends React.Component{
+
+    onInputChange(ev){
+        this.props.onChange(this.props.id, ev.target.value);
+
+    }
+    render(){
+        return(
+            <input
+                type="number"
+                min="1"
+                max="9"
+                className={style.Tile}
+                defaultValue={this.props.value}
+                onChange={this.onInputChange.bind(this)}
+                disabled={this.props.value == "." ? false : true}
+            />
+        )
+
+    }
+}
+
+
 let id=-1;
 const Board = (props,id) => (
     <div className={style.Board}>
@@ -33,6 +46,8 @@ class App extends React.Component {
             board: []
         };
     }
+
+
     componentDidMount() {
         this.setState({ board: this.state.initialBoard.split("")});
     }
@@ -43,14 +58,11 @@ class App extends React.Component {
             }
             return item
         })});
-        console.log('id',this.state.board[id]);
-        console.log("board ", id, " ", value);
+
     }
     newGame() {
-        const level = prompt(
-            "Wybierz poziom trudności easy medium hard very-hard insane inhuman"
-        );
-        const initial = sudoku.generate(level, false);
+
+        const initial = sudoku.generate('easy', false);
         this.setState({
             initialBoard: initial,
             board: initial.split("")
@@ -70,6 +82,8 @@ class App extends React.Component {
         else alert("Sudoku ma błąd");
     }
     renderBoard() {
+
+        console.log('board', this.state.board);
         return (
             <Board
                 tiles={this.state.board}
