@@ -10,11 +10,10 @@ const Tile = props => (
         max="9"
         className={style.Tile}
         defaultValue={props.value}
-        onChange={()=>(props.onChange(props.id,props.value)) }
+        onChange={()=>(props.onChange(props.id,event.target.value)) }
         disabled={props.value == "." ? false : true}
     />
 );
-let id=-1;
 const Board = (props,id) => (
     <div className={style.Board}>
         {props.tiles.map((tile,id) => {
@@ -38,9 +37,10 @@ class App extends React.Component {
     }
     onChange(id, value) {
         this.setState({board:this.state.board.map((item,index)=>{
-            if(index==id){
+            if(index==id){console.log('value ',value);
                 return value
             }
+            console.log('item ',item);
             return item
         })});
         console.log('id',this.state.board[id]);
