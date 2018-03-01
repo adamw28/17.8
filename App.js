@@ -3,22 +3,33 @@ import style from "./App.css";
 import uuid from "uuid";
 import sudoku from "sudoku-umd";
 
-const Tile = props => (
-    <input
-        type="number"
-        min="1"
-        max="9"
-        className={style.Tile}
-        defaultValue={props.value}
-        onChange={()=>(props.onChange(props.id,event.target.value)) }
-        disabled={props.value == "." ? false : true}
-    />
-);
+class Tile extends React.Component{
+
+    onInputChange(ev){
+        this.props.onChange(this.props.id, ev.target.value);
+
+    }
+    render(){
+        return(
+            <input
+                type="number"
+                min="1"
+                max="9"
+                className={style.Tile}
+                defaultValue={this.props.value}
+                onChange={this.onInputChange.bind(this)}
+                disabled={this.props.value == "." ? false : true}
+            />
+        )
+
+    }
+}
+
 const Board = (props,id) => (
     <div className={style.Board}>
         {props.tiles.map((tile,id) => {
             return (
-                <Tile key={uuid.v4()} value={tile} id={id} onChange={props.onChange} />
+                <Tile key={uuid.v4()} value={tile} id={id} onChange={props.onChange} initial={props.initial}/>
             );
         })}
     </div>
@@ -32,28 +43,25 @@ class App extends React.Component {
             board: []
         };
     }
+
+
     componentDidMount() {
         this.setState({ board: this.state.initialBoard.split("")});
     }
     onChange(id, value) {
         this.setState({board:this.state.board.map((item,index)=>{
-            if(index==id){console.log('value ',value);
+            if(index==id){
                 return value
             }
-            console.log('item ',item);
             return item
         })});
-        console.log('id',this.state.board[id]);
-        console.log("board ", id, " ", value);
+        console.log(this.state.board)
     }
     newGame() {
-        const level = prompt(
-            "Wybierz poziom trudności easy medium hard very-hard insane inhuman"
-        );
-        const initial = sudoku.generate(level, false);
+        const initial = sudoku.generate('easy', false);
         this.setState({
             initialBoard: initial,
-            board: initial.split("")
+            board: initial.replace(/"."/g," ").split("")
         });
     }
     restart() {
@@ -70,10 +78,12 @@ class App extends React.Component {
         else alert("Sudoku ma błąd");
     }
     renderBoard() {
+
         return (
             <Board
                 tiles={this.state.board}
                 onChange={this.onChange.bind(this)}
+                initial={this.state.initialBoard}
             />
         );
     }
