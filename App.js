@@ -58,22 +58,26 @@ class App extends React.Component {
         console.log(this.state.board)
     }
     newGame() {
-        const initial = sudoku.generate('easy', false);
+        let initial = sudoku.generate('easy', false);
+        console.log('i1 ',initial);
+        initial=initial.split("");
+        console.log('i2 ',initial);
         this.setState({
             initialBoard: initial,
-            board: initial.replace(/"."/g," ").split("")
+            board: initial
         });
     }
     restart() {
-        this.setState({ board: this.state.initialBoard.split("") });
+        this.setState({ board: this.state.initialBoard });
+        console.log('i2 ',sudoku.solve(this.state.initialBoard).split(""));
     }
     solve() {
         this.setState({
             board: sudoku.solve(this.state.initialBoard).split("")
         });
     }
-    check() {
-        if (this.state.board == sudoku.solve(this.state.initialBoard).split(""))
+    check() {console.log(this.state.board);
+        if (this.state.board.join("") == sudoku.solve(this.state.initialBoard))
             alert("Sudoku rozwiązane");
         else alert("Sudoku ma błąd");
     }

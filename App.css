@@ -13,8 +13,12 @@ h1{
 	grid-template-columns: repeat(9, 11%);
 	grid-template-rows: repeat(9, 11%);
 }
-.Tile{
-
+.Tile::-webkit-inner-spin-button, 
+.Tile::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 .buttons{
 	margin:5px 40.8%;
